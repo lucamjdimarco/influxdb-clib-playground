@@ -7,6 +7,15 @@ RUN apt-get update
 # Install any packages or dependencies here
 RUN apt-get install -y \
 	curl \
+	wget \
+	lsb-release \
+	software-properties-common \
+	pkg-config \
+	binutils-dev \
+	libcap-dev \
+	libelf-dev \
+	gcc-multilib \
+	gpg \
 	vim \
 	git \
 	libboost-all-dev \
@@ -20,6 +29,16 @@ RUN apt-get install -y \
 	init \
 	iproute2 \
 	net-tools
+
+# install latest llvm for ebpf
+RUN mkdir -p /opt/llvm && cd /opt/llvm && \
+	wget https://apt.llvm.org/llvm.sh && \
+	chmod +x llvm.sh && \
+	./llvm.sh all && \
+	wget https://raw.githubusercontent.com/ShangjinTang/dotfiles/05ef87daae29475244c276db5d406b58c52be445/linux/ubuntu/22.04/bin/update-alternatives-clang && \
+	chmod +x update-alternatives-clang && \
+	sed -i 's/sudo//g' update-alternatives-clang && \
+	./update-alternatives-clang
 
 RUN mkdir -p /opt/git
 
