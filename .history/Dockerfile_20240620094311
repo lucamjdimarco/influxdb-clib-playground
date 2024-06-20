@@ -69,7 +69,7 @@ RUN ldconfig
 
 # compile test project for checking c-influxdb bridge
 RUN cd /opt/git && \
-	git clone https://github.com/lucamjdimarco/c-influxdb-example.git
+	git clone https://github.com/netgroup/c-influxdb-example.git
 
 # Cleanup package cache to reduce image size
 RUN apt-get clean
