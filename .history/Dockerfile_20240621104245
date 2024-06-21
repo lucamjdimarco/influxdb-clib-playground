@@ -1,5 +1,5 @@
 # Use the Ubuntu 24.04 base image
-FROM ubuntu:24.04
+FROM ubuntu:22.04
 
 # Update package lists
 RUN apt-get update
@@ -29,9 +29,9 @@ RUN apt-get install -y \
 	init \
 	iproute2 \
 	net-tools \
-	#build-essential \
-    #libbpfcc-dev \
-    #linux-headers-$(uname -r)
+	build-essential \
+    libbpfcc-dev \
+    linux-headers-$(uname -r)
 
 # install latest llvm for ebpf
 RUN mkdir -p /opt/llvm && cd /opt/llvm && \

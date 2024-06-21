@@ -28,10 +28,7 @@ RUN apt-get install -y \
 	systemd \
 	init \
 	iproute2 \
-	net-tools \
-	#build-essential \
-    #libbpfcc-dev \
-    #linux-headers-$(uname -r)
+	net-tools
 
 # install latest llvm for ebpf
 RUN mkdir -p /opt/llvm && cd /opt/llvm && \
@@ -76,15 +73,11 @@ RUN cd /opt/git && \
 
 # Clone the libbpf-bootstrap-tc repository and checkout the influxDB-test branch
 RUN cd /opt/git && \
-	git clone --recurse-submodules https://github.com/lucamjdimarco/libbpf-bootstrap-tc.git && \
+	git clone https://github.com/lucamjdimarco/libbpf-bootstrap-tc.git && \
 	cd libbpf-bootstrap-tc && \
-	git checkout influxDB-test && \
-	git submodule update --init --recursive
+	git checkout influxDB-test
 
 # Cleanup package cache to reduce image size
 RUN apt-get clean
-
-# Configure RLIMIT_MEMLOCK for BPF programs
-RUN ulimit -l unlimited
 
 ENTRYPOINT ["/sbin/init"]

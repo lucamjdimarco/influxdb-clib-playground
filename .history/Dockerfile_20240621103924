@@ -29,9 +29,9 @@ RUN apt-get install -y \
 	init \
 	iproute2 \
 	net-tools \
-	#build-essential \
-    #libbpfcc-dev \
-    #linux-headers-$(uname -r)
+	build-essential \
+    libbpfcc-dev \
+    linux-headers-$(uname -r)
 
 # install latest llvm for ebpf
 RUN mkdir -p /opt/llvm && cd /opt/llvm && \
@@ -83,8 +83,5 @@ RUN cd /opt/git && \
 
 # Cleanup package cache to reduce image size
 RUN apt-get clean
-
-# Configure RLIMIT_MEMLOCK for BPF programs
-RUN ulimit -l unlimited
 
 ENTRYPOINT ["/sbin/init"]
