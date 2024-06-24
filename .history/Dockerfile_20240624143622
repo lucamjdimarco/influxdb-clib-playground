@@ -85,6 +85,6 @@ RUN cd /opt/git && \
 RUN apt-get clean
 
 # Configure RLIMIT_MEMLOCK for BPF programs
-#RUN ulimit -l unlimited
+RUN ulimit -l unlimited
 
 ENTRYPOINT ["/sbin/init"]
