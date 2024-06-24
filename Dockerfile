@@ -14,7 +14,7 @@ RUN apt-get install -y \
 	binutils-dev \
 	libcap-dev \
 	libelf-dev \
-	#gcc-multilib \
+	gcc-multilib \
 	gpg \
 	vim \
 	git \
@@ -28,7 +28,8 @@ RUN apt-get install -y \
 	systemd \
 	init \
 	iproute2 \
-	net-tools
+	net-tools \
+	iputils-ping 
 	#build-essential \
     #libbpfcc-dev \
     #linux-headers-$(uname -r)
