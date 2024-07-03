@@ -28,8 +28,7 @@ RUN apt-get install -y \
 	systemd \
 	init \
 	iproute2 \
-	net-tools \
-	iputils-ping 
+	net-tools
 	#build-essential \
     #libbpfcc-dev \
     #linux-headers-$(uname -r)
