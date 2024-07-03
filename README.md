@@ -32,4 +32,4 @@ The program must be compiled. When run, the program writes a point to the
 
 To stop the container: ```podman stop influxtest```
 
-```make CFLAGS_EXTRA="-DMY_DIRECTIVE=1"```
+```make CFLAGS_EXTRA="-DCLASS=1"```
