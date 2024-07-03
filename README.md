@@ -12,8 +12,9 @@ $ podman run -d --rm --name influxtest -it localhost/podman-influxdb bash
 ```
 
 ```bash
-$ podman run -d --rm --name influxtest -it --privileged --ulimit memlock=-1 localhost/podman-influxdb bash
+$ podman run -d --rm --name influxtest -v ../libbpf-bootstrap-tc:/opt/shared/libbpf-bootstrap-tc -it --privileged --ulimit memlock=-1 localhost/podman-influxdb bash
 ```
+
 
 It is possible to enter the running container:
 ```bash
