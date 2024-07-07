@@ -29,7 +29,9 @@ RUN apt-get install -y \
 	init \
 	iproute2 \
 	net-tools \
-	iputils-ping 
+	iputils-ping \
+	gnupg \
+	curl
 	#build-essential \
     #libbpfcc-dev \
     #linux-headers-$(uname -r)

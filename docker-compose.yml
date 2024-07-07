@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  influxdb:
+    build: .
+    container_name: influxdb
+    ports:
+      - "8086:8086"
+    volumes:
+      - influxdb_data:/var/lib/influxdb
+    command: ["/sbin/init"]
+    networks:
+      - influxdb_net
+
+  chronograf:
+    image: chronograf:latest
+    container_name: chronograf
+    ports:
+      - "8888:8888"
+    depends_on:
+      - influxdb
+    environment:
+      - INFLUXDB_URL=http://influxdb:8086
+    networks:
+      - influxdb_net
+
+volumes:
+  influxdb_data:
+
+networks:
+  influxdb_net:
+    driver: bridge
