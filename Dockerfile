@@ -31,7 +31,8 @@ RUN apt-get install -y \
 	net-tools \
 	iputils-ping \
 	gnupg \
-	curl
+	curl \
+	gdb
 	#build-essential \
     #libbpfcc-dev \
     #linux-headers-$(uname -r)
