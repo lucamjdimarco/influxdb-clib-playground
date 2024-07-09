@@ -32,4 +32,7 @@ The program must be compiled. When run, the program writes a point to the
 
 To stop the container: ```podman stop influxtest```
 
-```make CFLAGS_EXTRA="-DCLASS=1"```
+```make -j6 CFLAGS_EXTRA="-DCLASS=1"```
+
+
+tc filter del dev eth0 ingress
