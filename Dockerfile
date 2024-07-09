@@ -5,7 +5,7 @@ FROM ubuntu:24.04
 RUN apt-get update
 
 # Install any packages or dependencies here
-RUN apt-get install -y \
+RUN apt-get install -y --fix-missing \
 	curl \
 	wget \
 	lsb-release \
@@ -32,10 +32,26 @@ RUN apt-get install -y \
 	iputils-ping \
 	gnupg \
 	curl \
-	gdb
+	gdb 
+	#apt-transport-https
 	#build-essential \
     #libbpfcc-dev \
     #linux-headers-$(uname -r)
+
+# Add the new InfluxData repository key
+RUN wget -q https://repos.influxdata.com/influxdata-archive_compat.key && \
+    gpg --with-fingerprint --show-keys ./influxdata-archive_compat.key && \
+    cat influxdata-archive_compat.key | gpg --dearmor | tee /etc/apt/trusted.gpg.d/influxdata-archive_compat.gpg > /dev/null && \
+    echo 'deb [signed-by=/etc/apt/trusted.gpg.d/influxdata-archive_compat.gpg] https://repos.influxdata.com/ubuntu focal stable' | tee /etc/apt/sources.list.d/influxdata.list && \
+    rm -f /etc/apt/trusted.gpg.d/influxdb.gpg
+
+# Update package lists again
+RUN apt-get update
+
+RUN apt-get remove -y influxdb-client
+
+# Install InfluxDB 2.x
+RUN apt-get install -y influxdb2
 
 # install latest llvm for ebpf
 RUN mkdir -p /opt/llvm && cd /opt/llvm && \
@@ -87,6 +103,12 @@ RUN cd /opt/git && \
 
 # Cleanup package cache to reduce image size
 RUN apt-get clean
+
+# Expose InfluxDB ports
+EXPOSE 8086
+
+# Start InfluxDB service
+CMD ["influxd"]
 
 # Configure RLIMIT_MEMLOCK for BPF programs
 #RUN ulimit -l unlimited
