@@ -36,3 +36,5 @@ To stop the container: ```podman stop influxtest```
 
 
 tc filter del dev eth0 ingress
+
+SELECT "value" FROM "tc_db"."autogen"."rate" WHERE time > now() - 1h

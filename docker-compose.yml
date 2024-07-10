@@ -1,9 +1,8 @@
-version: '3.8'
 
 services:
   influxdb:
     build: .
-    container_name: influxdb
+    container_name: influxtest
     ports:
       - "8086:8086"
     volumes:
@@ -11,6 +10,11 @@ services:
     command: ["/sbin/init"]
     networks:
       - influxdb_net
+    privileged: true
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
 
   chronograf:
     image: chronograf:latest
