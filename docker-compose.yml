@@ -1,21 +1,95 @@
 
+# services:
+#   influxdb:
+#     build: .
+#     container_name: influxtest
+#     ports:
+#       - "8086:8086"
+#     volumes:
+#       - influxdb_data:/var/lib/influxdb
+#     command: ["/sbin/init"]
+#     networks:
+#       - my_ipv6_network
+#     privileged: true
+#     ulimits:
+#       memlock:
+#         soft: -1
+#         hard: -1
+
+#   chronograf:
+#     image: chronograf:latest
+#     container_name: chronograf
+#     ports:
+#       - "8888:8888"
+#     depends_on:
+#       - influxdb
+#     environment:
+#       - INFLUXDB_URL=http://influxdb:8086
+#     networks:
+#       - my_ipv6_network
+
+# volumes:
+#   influxdb_data:
+
+# # networks:
+# #   influxdb_net:
+# #     driver: bridge
+
+# networks:
+#   my_ipv6_network:
+#     external: true
+#     name: my_ipv6_network
+
+# # networks:
+# #   mynetwork2:
+# #     driver: bridge
+# #     ipam:
+# #       config:
+# #         - subnet: "192.168.100.0/24"
+# #         - subnet: "2001:db8:1::/64"
+
+version: '3.8'
+
 services:
   influxdb:
-    build: .
-    container_name: influxtest
+    build:
+      context: ./influxdb
+      dockerfile: Dockerfile
+    container_name: influxdb
     ports:
       - "8086:8086"
-    volumes:
-      - influxdb_data:/var/lib/influxdb
-    command: ["/sbin/init"]
     networks:
-      - my_ipv6_network
+      - external_network
+    
+
+  libbpf1:
+    build:
+      context: ./libbpf
+      dockerfile: Dockerfile
+    container_name: libbpf1
+    networks:
+      - external_network
     privileged: true
     ulimits:
       memlock:
         soft: -1
         hard: -1
+    command: ["/sbin/init"]
 
+  libbpf2:
+    build:
+      context: ./libbpf
+      dockerfile: Dockerfile
+    container_name: libbpf2
+    networks:
+      - external_network
+    privileged: true
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    command: ["/sbin/init"]
+    
   chronograf:
     image: chronograf:latest
     container_name: chronograf
@@ -26,24 +100,9 @@ services:
     environment:
       - INFLUXDB_URL=http://influxdb:8086
     networks:
-      - my_ipv6_network
-
-volumes:
-  influxdb_data:
-
-# networks:
-#   influxdb_net:
-#     driver: bridge
+      - external_network
 
 networks:
-  my_ipv6_network:
-    external: true
-    name: my_ipv6_network
-
-# networks:
-#   mynetwork2:
-#     driver: bridge
-#     ipam:
-#       config:
-#         - subnet: "192.168.100.0/24"
-#         - subnet: "2001:db8:1::/64"
+  external_network:
+    external:
+      name: my_ipv6_network
