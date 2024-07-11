@@ -2,7 +2,7 @@
 FROM ubuntu:24.04
 
 # Update package lists
-RUN apt-get update
+RUN apt-get update && apt-get upgrade -y
 
 # Install any packages or dependencies here
 RUN apt-get install -y \

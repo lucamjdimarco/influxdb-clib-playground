@@ -9,7 +9,7 @@ services:
       - influxdb_data:/var/lib/influxdb
     command: ["/sbin/init"]
     networks:
-      - influxdb_net
+      - my_ipv6_network
     privileged: true
     ulimits:
       memlock:
@@ -26,11 +26,24 @@ services:
     environment:
       - INFLUXDB_URL=http://influxdb:8086
     networks:
-      - influxdb_net
+      - my_ipv6_network
 
 volumes:
   influxdb_data:
 
+# networks:
+#   influxdb_net:
+#     driver: bridge
+
 networks:
-  influxdb_net:
-    driver: bridge
+  my_ipv6_network:
+    external: true
+    name: my_ipv6_network
+
+# networks:
+#   mynetwork2:
+#     driver: bridge
+#     ipam:
+#       config:
+#         - subnet: "192.168.100.0/24"
+#         - subnet: "2001:db8:1::/64"

@@ -1,0 +1,8 @@
+version: "2.1"
+networks:
+  mynetwork:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: "192.168.100.0/24"
+        - subnet: "2001:db8:1::/64"
