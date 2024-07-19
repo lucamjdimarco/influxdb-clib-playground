@@ -118,6 +118,7 @@ networks:
   external_network:
     external:
       name: my_ipv6_network
+      #name: podman2
     ipam:
       config:
         - subnet: 10.89.0.0/24
