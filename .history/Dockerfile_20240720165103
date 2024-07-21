@@ -1,8 +1,9 @@
 # Use the Ubuntu 24.04 base image
-FROM ubuntu:24.04
+#FROM ubuntu:24.04
+FROM --platform=linux/amd64 ubuntu:24.04
 
 # Update package lists
-RUN apt-get update
+RUN apt-get update && apt-get upgrade -y
 
 # Install any packages or dependencies here
 RUN apt-get install -y \
@@ -28,7 +29,14 @@ RUN apt-get install -y \
 	systemd \
 	init \
 	iproute2 \
-	net-tools
+	net-tools \
+	iputils-ping \
+	gnupg \
+	curl \
+	gdb
+	#build-essential \
+    #libbpfcc-dev \
+    #linux-headers-$(uname -r)
 
 # install latest llvm for ebpf
 RUN mkdir -p /opt/llvm && cd /opt/llvm && \
@@ -71,7 +79,17 @@ RUN ldconfig
 RUN cd /opt/git && \
 	git clone https://github.com/lucamjdimarco/c-influxdb-example.git
 
+# Clone the libbpf-bootstrap-tc repository and checkout the influxDB-test branch
+RUN cd /opt/git && \
+	git clone --recurse-submodules https://github.com/lucamjdimarco/libbpf-bootstrap-tc.git && \
+	cd libbpf-bootstrap-tc && \
+	git checkout influxDB-test && \
+	git submodule update --init --recursive
+
 # Cleanup package cache to reduce image size
 RUN apt-get clean
+
+# Configure RLIMIT_MEMLOCK for BPF programs
+#RUN ulimit -l unlimited
 
 ENTRYPOINT ["/sbin/init"]

@@ -52,9 +52,6 @@ version: '3.8'
 
 services:
   influxdb:
-  # build:
-  #     context: ./libbpf
-  #     dockerfile: Dockerfile
     image: lucamjdimarco/podman-influxdb:latest
     container_name: influxdb
     ports:
@@ -64,13 +61,9 @@ services:
       external_network:
         ipv4_address: 10.89.0.30
         ipv6_address: fd00:dead:beef::30
-    command: ["influxd"]
     
 
   libbpf1:
-  # build:
-  #     context: ./libbpf
-  #     dockerfile: Dockerfile
     image: lucamjdimarco/podman-influxdb:latest
     container_name: libbpf1
     networks:
@@ -86,9 +79,6 @@ services:
     command: ["/sbin/init"]
 
   libbpf2:
-  # build:
-  #     context: ./libbpf
-  #     dockerfile: Dockerfile
     image: lucamjdimarco/podman-influxdb:latest
     container_name: libbpf2
     networks:

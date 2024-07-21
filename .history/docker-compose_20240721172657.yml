@@ -64,7 +64,6 @@ services:
       external_network:
         ipv4_address: 10.89.0.30
         ipv6_address: fd00:dead:beef::30
-    command: ["influxd"]
     
 
   libbpf1:

@@ -1,8 +1,9 @@
 # Use the Ubuntu 24.04 base image
-FROM ubuntu:24.04
+#FROM ubuntu:24.04
+FROM --platform=linux/amd64 ubuntu:24.04
 
 # Update package lists
-RUN apt-get update
+RUN apt-get update && apt-get upgrade -y
 
 # Install any packages or dependencies here
 RUN apt-get install -y \
@@ -29,12 +30,13 @@ RUN apt-get install -y \
 	init \
 	iproute2 \
 	net-tools \
-	build-essential \
-    libbpfcc-dev \
-    linux-headers-$(uname -r) \
-
-# Configure RLIMIT_MEMLOCK for BPF programs
-RUN ulimit -l unlimited
+	iputils-ping \
+	gnupg \
+	curl \
+	gdb
+	#build-essential \
+    #libbpfcc-dev \
+    #linux-headers-$(uname -r)
 
 # install latest llvm for ebpf
 RUN mkdir -p /opt/llvm && cd /opt/llvm && \
@@ -86,5 +88,8 @@ RUN cd /opt/git && \
 
 # Cleanup package cache to reduce image size
 RUN apt-get clean
+
+# Configure RLIMIT_MEMLOCK for BPF programs
+#RUN ulimit -l unlimited
 
 ENTRYPOINT ["/sbin/init"]

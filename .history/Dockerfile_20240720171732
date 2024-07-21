@@ -2,7 +2,7 @@
 FROM ubuntu:24.04
 
 # Update package lists
-RUN apt-get update
+RUN apt-get update && apt-get upgrade -y
 
 # Install any packages or dependencies here
 RUN apt-get install -y \
@@ -14,7 +14,7 @@ RUN apt-get install -y \
 	binutils-dev \
 	libcap-dev \
 	libelf-dev \
-	#gcc-multilib \
+	gcc-multilib \
 	gpg \
 	vim \
 	git \
@@ -28,7 +28,14 @@ RUN apt-get install -y \
 	systemd \
 	init \
 	iproute2 \
-	net-tools
+	net-tools \
+	iputils-ping \
+	gnupg \
+	curl \
+	gdb
+	#build-essential \
+    #libbpfcc-dev \
+    #linux-headers-$(uname -r)
 
 # install latest llvm for ebpf
 RUN mkdir -p /opt/llvm && cd /opt/llvm && \
@@ -80,5 +87,8 @@ RUN cd /opt/git && \
 
 # Cleanup package cache to reduce image size
 RUN apt-get clean
+
+# Configure RLIMIT_MEMLOCK for BPF programs
+#RUN ulimit -l unlimited
 
 ENTRYPOINT ["/sbin/init"]
