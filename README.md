@@ -31,15 +31,24 @@ program in
 /opt/git/c-influxdb-example
 ```
 
+To update the code at the most recent version:
+```
+git pull
+git switch provaBatch2
+```
+
 The program must be compiled. When run, the program writes a point to the
 ```temperature_db``` database in the local influxdb.
 
 To stop the container: ```podman stop influxtest```
 
-```make -j6 CFLAGS_EXTRA="-DCLASS=1"```
 
+To compile the program you can do:
+``` make clean ```
+``` make -j6 CFLAGS_EXTRA="-DCLASS=1" ```
 
-tc filter del dev eth0 ingress
+To can detach the filter if it remain attached
+``` tc filter del dev eth0 ingress ```
 
 Query to can visualize the flows in chronograph ```SELECT "value" FROM "tc_db"."autogen"."rate" WHERE time > now() - 1h```
 
