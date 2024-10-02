@@ -1,6 +1,17 @@
 Podman turnkey container where you can test access to the influxdb server using
 bridge C libraries.
 
+This Podman container provides a complete environment for testing and developing BPF (Berkeley Packet Filter) programs that filter network packets at the kernel level, while also using InfluxDB for data collection and analysis. The environment is designed to be easily replicable, including all necessary tools for packet filtering, metric management, and container-to-container network connectivity.
+
+With this setup, you will be able to:
+
+Test BPF-based packet filtering on network traffic.
+Interact with a local InfluxDB instance using C libraries to write and query data.
+Simulate a network between containers using both IPv4 and IPv6 to test complex network scenarios.
+This environment is useful for developers and network engineers who want to experiment with BPF and monitoring tools in a replicable setup that can be deployed on any machine running Podman or Docker.
+
+
+
 To build the image, just run:
 ```bash
 $ podman build --platform linux/amd64 -t podman-influxdb .
