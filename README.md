@@ -65,8 +65,10 @@ Query to can visualize the flows in chronograph ```SELECT "value" FROM "tc_db"."
 
 To create the ipv6 network used in the compose: ``` podman network create --subnet 10.89.0.0/24 --gateway 10.89.0.1 --ipv6 --subnet fd00:dead:beef::/48 --gateway fd00:dead:beef::1 my_ipv6_network ```
 
-# libbpf2 ipv4 addr: 10.89.0.20
-# libbpf1 ipv4 addr: 10.89.0.10
+The IP address of the container are:
+libbpf1 ipv4 addr: ``` 10.89.0.10 ```
+libbpf2 ipv4 addr: ``` 10.89.0.20 ```
+
 
 To can ping the container libbpf1 to libbpf2 using ipv4 it's mandatory to specify the ipv4 address, for example ``` ping 10.89.0.20 ```
 
