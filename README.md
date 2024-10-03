@@ -92,11 +92,12 @@ git switch provaBatch2
 The program must be compiled. When run, the program writes a point to the
 ```temperature_db``` database in the local influxdb.
 
-- To stop the container: ```podman stop influxtest```
+- To stop the container individually: ```podman stop influxtest```
+- To stop the container with compose: ```podman-compose down```
 
 
 
-
+## Tips
 - To can detach the filter if it remain attached
 ``` tc filter del dev eth0 ingress ```
 
