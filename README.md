@@ -68,7 +68,7 @@ git switch provaBatch2
    - Destination port
    - Protocol
    
-   To change the type of active filter, you have to compile the programe with a different directive, according the following indication:
+- To change the type of active filter, you have to compile the programe with a different directive, according the following indication:
     - ``` "-DCLASS=2" ```  -> the program will filter all the ipv6 packet, except for the packet with a local address, saving for every packet the 'quintupla'
     - ``` "-DCLASS=3" ```  -> the program will filter all the ipv4 packet saving for everyone only the IP source and destination address
     - ``` "-DCLASS=4" ```  -> the program will filter all the ipv6 packet saving for everyone only the IP source and destination address
