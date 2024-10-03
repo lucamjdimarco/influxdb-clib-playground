@@ -61,8 +61,8 @@ The program must be compiled. When run, the program writes a point to the
 
 
 - To compile the program you can do:
-``` make clean ```
-``` make -j6 CFLAGS_EXTRA="-DCLASS=1" ```
+  - ``` make clean ```
+  - ``` make -j6 CFLAGS_EXTRA="-DCLASS=1" ```
 
 - To can detach the filter if it remain attached
 ``` tc filter del dev eth0 ingress ```
