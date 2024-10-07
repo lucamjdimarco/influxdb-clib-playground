@@ -83,7 +83,10 @@ services:
       memlock:
         soft: -1
         hard: -1
-    command: ["/sbin/init"]
+    #command: ["/sbin/init"]
+    volumes:
+      - ./start.sh:/usr/local/bin/init-script.sh
+    command: ["/bin/bash", "-c", "/usr/local/bin/init-script.sh && /sbin/init"]
 
   libbpf2:
   # build:
@@ -101,7 +104,10 @@ services:
       memlock:
         soft: -1
         hard: -1
-    command: ["/sbin/init"]
+    #command: ["/sbin/init"]
+    volumes:
+      - ./start.sh:/usr/local/bin/init-script.sh
+    command: ["/bin/bash", "-c", "/usr/local/bin/init-script.sh && /sbin/init"]
     
   chronograf:
     image: chronograf:latest
@@ -112,6 +118,8 @@ services:
       - influxdb
     environment:
       - INFLUXDB_URL=http://influxdb:8086
+    volumes:
+      - ./chronograf-data:/var/lib/chronograf
     networks:
       #- external_network
       external_network:

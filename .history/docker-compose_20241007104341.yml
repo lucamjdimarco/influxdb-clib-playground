@@ -52,9 +52,10 @@ version: '3.8'
 
 services:
   influxdb:
-    build:
-      context: ./influxdb
-      dockerfile: Dockerfile
+  # build:
+  #     context: ./libbpf
+  #     dockerfile: Dockerfile
+    image: lucamjdimarco/podman-influxdb:latest
     container_name: influxdb
     ports:
       - "8086:8086"
@@ -63,13 +64,14 @@ services:
       external_network:
         ipv4_address: 10.89.0.30
         ipv6_address: fd00:dead:beef::30
+    command: ["influxd"]
     
 
   libbpf1:
-    # build:
-    #   context: ./libbpf
-      #dockerfile: Dockerfile
-    image: mynamespace/podman-influxdb:latest
+  # build:
+  #     context: ./libbpf
+  #     dockerfile: Dockerfile
+    image: lucamjdimarco/podman-influxdb:latest
     container_name: libbpf1
     networks:
       #- external_network
@@ -81,13 +83,16 @@ services:
       memlock:
         soft: -1
         hard: -1
-    command: ["/sbin/init"]
+    #command: ["/sbin/init"]
+    volumes:
+      - ./start.sh:/usr/local/bin/init-script.sh
+    command: ["/bin/bash", "-c", "/usr/local/bin/init-script.sh && /sbin/init"]
 
   libbpf2:
-    # build:
-    #   context: ./libbpf
-      #dockerfile: Dockerfile
-    image: mynamespace/podman-influxdb:latest
+  # build:
+  #     context: ./libbpf
+  #     dockerfile: Dockerfile
+    image: lucamjdimarco/podman-influxdb:latest
     container_name: libbpf2
     networks:
       #- external_network
@@ -99,7 +104,10 @@ services:
       memlock:
         soft: -1
         hard: -1
-    command: ["/sbin/init"]
+    #command: ["/sbin/init"]
+    volumes:
+      - ./start.sh:/usr/local/bin/init-script.sh
+    command: ["/bin/bash", "-c", "/usr/local/bin/init-script.sh && /sbin/init"]
     
   chronograf:
     image: chronograf:latest
@@ -110,6 +118,8 @@ services:
       - influxdb
     environment:
       - INFLUXDB_URL=http://influxdb:8086
+    volumes:
+      - ./chronograf-data:/var/lib/chronograf
     networks:
       #- external_network
       external_network:
