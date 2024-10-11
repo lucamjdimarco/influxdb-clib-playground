@@ -93,7 +93,7 @@ services:
   #     context: ./libbpf
   #     dockerfile: Dockerfile
     image: lucamjdimarco/podman-influxdb:latest
-    container_name: container2
+    container_name: libbpf2
     networks:
       #- external_network
       external_network:
