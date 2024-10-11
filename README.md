@@ -113,3 +113,6 @@ The program must be compiled. When run, the program writes a point to the
 - To can ping the container libbpf1 to libbpf2 using ipv4 it's mandatory to specify the ipv4 address, for example ``` ping 10.89.0.20 ```
 
 - To can ping the container libbpf1 to libbpf2 using ipv6 you just need to use ``` ping libbpf2 ```
+
+## Schema
+![Alt text](schema.png)
