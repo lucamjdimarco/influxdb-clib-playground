@@ -14,6 +14,7 @@ Interact with a local InfluxDB instance using C libraries to write and query dat
 Simulate a network between containers using both IPv4 and IPv6 to test complex network scenarios.
 This environment is useful for developers and network engineers who want to experiment with BPF and monitoring tools in a replicable setup that can be deployed on any machine running Podman or Docker.
 
+<img width="1107" alt="schema" src="https://github.com/user-attachments/assets/2ab36972-f9d9-4d00-ae4a-023c2c6c0d60">
 
 ## Getting started
 
