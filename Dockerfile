@@ -32,9 +32,7 @@ RUN apt-get install -y \
 	iputils-ping \
 	gnupg \
 	curl \
-	gdb \
-	##
-	linux-headers-generic
+	gdb
 	#build-essential \
     #libbpfcc-dev \
     #linux-headers-$(uname -r)
