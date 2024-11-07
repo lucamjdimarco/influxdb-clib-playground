@@ -86,6 +86,7 @@ services:
     #command: ["/sbin/init"]
     volumes:
       - ./start.sh:/usr/local/bin/init-script.sh
+      - ./python-env.sh:/usr/local/bin/python-env.sh
     command: ["/bin/bash", "-c", "/usr/local/bin/init-script.sh && /sbin/init"]
 
   container2:

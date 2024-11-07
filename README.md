@@ -41,9 +41,22 @@ $ podman-compose up -d
 ```
 
 - It is possible to enter the running container:
+
+```bash
+$ podman exec -it container1 bash /usr/local/bin/python-env.sh 
+```
+
 ```bash
 $ podman exec -it container1 bash
 ```
+
+
+After, in the container:
+```bash
+$ cd /opt/git/c-influxdb-example/src/c
+$ export PYTHONPATH="/opt/git/libbpf-bootstrap-tc/src/c/myenv/lib/python3.12/site-packages:$PYTHONPATH"
+```
+    
 
 ## Try the filter
 - To can try the filter you have to chenge your position into the repository:
