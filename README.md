@@ -127,5 +127,14 @@ The program must be compiled. When run, the program writes a point to the
 
 - To can ping the container container1 to container2 using ipv6 you just need to use ``` ping container2 ```
 
+- To verify that the command of the python script have been done:
+  -  ``` dpkg -l | grep python3-venv ```
+     ``` dpkg -l | grep bpfcc ```
+     ``` dpkg -l | grep python3-pip ```
+  - ``` source myenv/bin/activate ```
+    ``` pip show bcc numba pytest redis ```
+  - ``` ls -l /lib/x86_64-linux-gnu/libLLVM.so.18.1 ```
+  - ``` echo $PYTHONPATH ```
+
 ## Schema
 ![Alt text](schema.png)

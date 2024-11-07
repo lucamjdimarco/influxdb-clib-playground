@@ -1,5 +1,7 @@
 #!/bin/bash
 
+KERNEL_VERSION=$(uname -r)
+
 cd /opt/git/libbpf-bootstrap-tc/src/c || exit
 
 # Aggiorna e installa pacchetti
@@ -20,7 +22,8 @@ python3 -c "import ctypes; ctypes.CDLL('libLLVM.so.18.1')"
 
 # Configura moduli
 # ln -s /lib/modules/6.8.0-48-generic /lib/modules/6.8.11-300.fc40.aarch64
-ln -s /lib/modules/6.8.0-48-generic /lib/modules/5.15.146.1-microsoft-standard-WSL2
+# ln -s /lib/modules/6.8.0-48-generic /lib/modules/5.15.146.1-microsoft-standard-WSL2
+ln -s /lib/modules/6.8.0-48-generic /lib/modules/$KERNEL_VERSION
 
 # Imposta PYTHONPATH
 export PYTHONPATH="/opt/git/libbpf-bootstrap-tc/src/c/myenv/lib/python3.12/site-packages:$PYTHONPATH"
