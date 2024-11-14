@@ -66,6 +66,8 @@ RUN ldconfig
 # compile influxdb-cxx library
 RUN cd /opt/git && \
 	git clone https://github.com/offa/influxdb-cxx && \
+	cd influxdb-cxx && \
+	git checkout 79d118a02c28a3657b2ba5308ad8df6a0ae810a7 && \
 	mkdir -p /opt/git/influxdb-cxx/build
 RUN cd /opt/git/influxdb-cxx/build && \
 	cmake .. -DINFLUXCXX_TESTING:BOOL=OFF && \

@@ -55,7 +55,7 @@ RUN cd /opt/git && \
 	git clone https://github.com/libcpr/cpr.git && \
 	mkdir -p /opt/git/cpr/build
 RUN cd /opt/git/cpr/build && \
-	cmake .. -DCPR_USE_SYSTEM_CURL=ON
+	cmake .. -DCPR_USE_SYSTEM_CURL=ON -DCMAKE_PREFIX_PATH=/usr/lib/ssl -DOPENSSL_ROOT_DIR=/usr/lib/ssl
 RUN cd /opt/git/cpr/build && \
 	cmake --build . --parallel && \
 	cmake --install .
@@ -66,9 +66,11 @@ RUN ldconfig
 # compile influxdb-cxx library
 RUN cd /opt/git && \
 	git clone https://github.com/offa/influxdb-cxx && \
+	cd influxdb-cxx && \
+	git checkout 8a59036 && \
 	mkdir -p /opt/git/influxdb-cxx/build
 RUN cd /opt/git/influxdb-cxx/build && \
-	cmake .. -DINFLUXCXX_TESTING:BOOL=OFF && \
+	cmake .. -DINFLUXCXX_TESTING:BOOL=OFF -DCMAKE_PREFIX_PATH=/usr/lib/x86_64-linux-gnu && \
 	make -j$(nproc) install
 
 # update cache for dynamic libraries
