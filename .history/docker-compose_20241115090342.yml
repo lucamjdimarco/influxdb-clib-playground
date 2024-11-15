@@ -55,7 +55,7 @@ services:
   # build:
   #     context: ./libbpf
   #     dockerfile: Dockerfile
-    image: lucamjdimarco/podman-influxdb:latest
+    image: lucamjdimarco/influxdb:latest
     container_name: influxdb
     ports:
       - "8086:8086"
@@ -67,12 +67,12 @@ services:
     command: ["influxd"]
     
 
-  libbpf1:
+  container1:
   # build:
   #     context: ./libbpf
   #     dockerfile: Dockerfile
-    image: lucamjdimarco/podman-influxdb:latest
-    container_name: libbpf1
+    image: lucamjdimarco/ebpf-classifier:latest
+    container_name: container1
     networks:
       #- external_network
       external_network:
@@ -85,15 +85,16 @@ services:
         hard: -1
     #command: ["/sbin/init"]
     volumes:
-      - ./init-script.sh:/usr/local/bin/init-script.sh
+      - ./start.sh:/usr/local/bin/init-script.sh
+      - ./python-env.sh:/usr/local/bin/python-env.sh
     command: ["/bin/bash", "-c", "/usr/local/bin/init-script.sh && /sbin/init"]
 
-  libbpf2:
+  container2:
   # build:
   #     context: ./libbpf
   #     dockerfile: Dockerfile
-    image: lucamjdimarco/podman-influxdb:latest
-    container_name: libbpf2
+    image: lucamjdimarco/ebpf-classifier:latest
+    container_name: container2
     networks:
       #- external_network
       external_network:
@@ -104,7 +105,10 @@ services:
       memlock:
         soft: -1
         hard: -1
-    command: ["/sbin/init"]
+    #command: ["/sbin/init"]
+    volumes:
+      - ./start.sh:/usr/local/bin/init-script.sh
+    command: ["/bin/bash", "-c", "/usr/local/bin/init-script.sh && /sbin/init"]
     
   chronograf:
     image: chronograf:latest
@@ -122,6 +126,17 @@ services:
       external_network:
         ipv4_address: 10.89.0.40
         ipv6_address: fd00:dead:beef::40
+  
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      external_network:
+        ipv4_address: 10.89.0.50
+        ipv6_address: fd00:dead:beef::50
+    command: ["redis-server"]
 
 networks:
   external_network:

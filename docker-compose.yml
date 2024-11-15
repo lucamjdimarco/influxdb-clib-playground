@@ -55,7 +55,7 @@ services:
   # build:
   #     context: ./libbpf
   #     dockerfile: Dockerfile
-    image: totto1999/ebpf-influxdb:latest
+    image: lucamjdimarco/influxdb:latest
     container_name: influxdb
     ports:
       - "8086:8086"
@@ -71,7 +71,7 @@ services:
   # build:
   #     context: ./libbpf
   #     dockerfile: Dockerfile
-    image: totto1999/ebpf-classifier:latest
+    image: lucamjdimarco/ebpf-classifier:latest
     container_name: container1
     networks:
       #- external_network
@@ -93,7 +93,7 @@ services:
   # build:
   #     context: ./libbpf
   #     dockerfile: Dockerfile
-    image: totto1999/ebpf-classifier:latest
+    image: lucamjdimarco/ebpf-classifier:latest
     container_name: container2
     networks:
       #- external_network

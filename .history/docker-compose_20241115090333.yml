@@ -55,7 +55,7 @@ services:
   # build:
   #     context: ./libbpf
   #     dockerfile: Dockerfile
-    image: lucamjdimarco/podman-influxdb:latest
+    image: lucamjdimarco/influxdb:latest
     container_name: influxdb
     ports:
       - "8086:8086"
@@ -71,7 +71,7 @@ services:
   # build:
   #     context: ./libbpf
   #     dockerfile: Dockerfile
-    image: lucamjdimarco/podman-influxdb:latest
+    image: totto1999/ebpf-classifier:latest
     container_name: container1
     networks:
       #- external_network
@@ -86,13 +86,14 @@ services:
     #command: ["/sbin/init"]
     volumes:
       - ./start.sh:/usr/local/bin/init-script.sh
+      - ./python-env.sh:/usr/local/bin/python-env.sh
     command: ["/bin/bash", "-c", "/usr/local/bin/init-script.sh && /sbin/init"]
 
   container2:
   # build:
   #     context: ./libbpf
   #     dockerfile: Dockerfile
-    image: lucamjdimarco/podman-influxdb:latest
+    image: totto1999/ebpf-classifier:latest
     container_name: container2
     networks:
       #- external_network
@@ -125,6 +126,17 @@ services:
       external_network:
         ipv4_address: 10.89.0.40
         ipv6_address: fd00:dead:beef::40
+  
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      external_network:
+        ipv4_address: 10.89.0.50
+        ipv6_address: fd00:dead:beef::50
+    command: ["redis-server"]
 
 networks:
   external_network:
