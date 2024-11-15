@@ -23,15 +23,12 @@ RUN apt-get install -y \
 	cmake \
 	libssl-dev \
 	libcurl4-openssl-dev \
-	influxdb \
-	influxdb-client \
 	systemd \
 	init \
 	iproute2 \
 	net-tools \
 	iputils-ping \
 	gnupg \
-	curl \
 	gdb
 	#build-essential \
     #libbpfcc-dev \
