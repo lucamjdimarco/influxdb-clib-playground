@@ -136,5 +136,8 @@ The program must be compiled. When run, the program writes a point to the
   - ``` ls -l /lib/x86_64-linux-gnu/libLLVM.so.18.1 ```
   - ``` echo $PYTHONPATH ```
 
-## Schema
+## Architectural System Schema 
+![Alt text](schema.png)
+
+## Architectural Interaction Schema 
 ![Alt text](schema.png)
