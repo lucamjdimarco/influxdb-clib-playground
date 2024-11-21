@@ -140,4 +140,4 @@ The program must be compiled. When run, the program writes a point to the
 ![Alt text](schema.png)
 
 ## Architectural Interaction Schema 
-![Alt text](schema.png)
+![Alt text](ContainerDiagram.png)
