@@ -137,7 +137,7 @@ The program must be compiled. When run, the program writes a point to the
   - ``` echo $PYTHONPATH ```
 
 ## Architectural System Schema 
-![Alt text](schema.png)
+![Alt text](schemaeBPF.png)
 
 ## Architectural Interaction Schema 
 ![Alt text](ContainerDiagram.png)
