@@ -143,4 +143,4 @@ The program must be compiled. When run, the program writes a point to the
 ![Alt text](ContainerDiagram2.png)
 
 ## Network Schema 
-![Alt text](NetworkSchema.png)
+![Alt text](NetworkSchema.Drawio.png)
