@@ -1,53 +1,3 @@
-
-# services:
-#   influxdb:
-#     build: .
-#     container_name: influxtest
-#     ports:
-#       - "8086:8086"
-#     volumes:
-#       - influxdb_data:/var/lib/influxdb
-#     command: ["/sbin/init"]
-#     networks:
-#       - my_ipv6_network
-#     privileged: true
-#     ulimits:
-#       memlock:
-#         soft: -1
-#         hard: -1
-
-#   chronograf:
-#     image: chronograf:latest
-#     container_name: chronograf
-#     ports:
-#       - "8888:8888"
-#     depends_on:
-#       - influxdb
-#     environment:
-#       - INFLUXDB_URL=http://influxdb:8086
-#     networks:
-#       - my_ipv6_network
-
-# volumes:
-#   influxdb_data:
-
-# # networks:
-# #   influxdb_net:
-# #     driver: bridge
-
-# networks:
-#   my_ipv6_network:
-#     external: true
-#     name: my_ipv6_network
-
-# # networks:
-# #   mynetwork2:
-# #     driver: bridge
-# #     ipam:
-# #       config:
-# #         - subnet: "192.168.100.0/24"
-# #         - subnet: "2001:db8:1::/64"
-
 version: '3.8'
 
 services:
@@ -55,7 +5,7 @@ services:
   # build:
   #     context: ./libbpf
   #     dockerfile: Dockerfile
-    image: lucamjdimarco/podman-influxdb:latest
+    image: lucamjdimarco/influxdb:latest
     container_name: influxdb
     ports:
       - "8086:8086"
@@ -64,14 +14,14 @@ services:
       external_network:
         ipv4_address: 10.89.0.30
         ipv6_address: fd00:dead:beef::30
-    command: ["influxd"]
+    #command: ["influxd"]
     
 
   container1:
   # build:
   #     context: ./libbpf
   #     dockerfile: Dockerfile
-    image: lucamjdimarco/podman-influxdb:latest
+    image: lucamjdimarco/ebpf-classifier:latest
     container_name: container1
     networks:
       #- external_network
@@ -86,13 +36,14 @@ services:
     #command: ["/sbin/init"]
     volumes:
       - ./start.sh:/usr/local/bin/init-script.sh
-    command: ["/bin/bash", "-c", "cinit-script.sh && /sbin/init"]
+      - ./python-env.sh:/usr/local/bin/python-env.sh
+    command: ["/bin/bash", "-c", "/usr/local/bin/init-script.sh && /sbin/init"]
 
   container2:
   # build:
   #     context: ./libbpf
   #     dockerfile: Dockerfile
-    image: lucamjdimarco/podman-influxdb:latest
+    image: lucamjdimarco/ebpf-classifier:latest
     container_name: container2
     networks:
       #- external_network
@@ -125,6 +76,17 @@ services:
       external_network:
         ipv4_address: 10.89.0.40
         ipv6_address: fd00:dead:beef::40
+  
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      external_network:
+        ipv4_address: 10.89.0.50
+        ipv6_address: fd00:dead:beef::50
+    command: ["redis-server"]
 
 networks:
   external_network:

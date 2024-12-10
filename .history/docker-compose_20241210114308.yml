@@ -53,11 +53,11 @@ services:
       
       data_network:
         ipv4_address: 10.90.0.20
-        ipv6_address: fd01:dead:beef::20
+        ipv6_address: fd00:dead:beef::20
 
-      # external_network:
-      #   ipv4_address: 10.89.0.20
-      #   ipv6_address: fd00:dead:beef::20
+      external_network:
+        ipv4_address: 10.89.0.20
+        ipv6_address: fd00:dead:beef::20
     privileged: true
     ulimits:
       memlock:

@@ -6,12 +6,8 @@ services:
     container_name: influxdb
     ports:
       - "8086:8086"
-    # networks:
-    #   external_network:
-    #     ipv4_address: 10.89.0.30
-    #     ipv6_address: fd00:dead:beef::30
     networks:
-      control_network:
+      external_network:
         ipv4_address: 10.89.0.30
         ipv6_address: fd00:dead:beef::30
     #command: ["influxd"]
@@ -21,17 +17,9 @@ services:
     image: lucamjdimarco/ebpf-classifier:latest
     container_name: container1
     networks:
-      # external_network:
-      #   ipv4_address: 10.89.0.10
-      #   ipv6_address: fd00:dead:beef::10
-      
-      control_network:
+      external_network:
         ipv4_address: 10.89.0.10
         ipv6_address: fd00:dead:beef::10
-
-      data_network:
-        ipv4_address: 10.90.0.10
-        ipv6_address: fd01:dead:beef::10
     privileged: true
     ulimits:
       memlock:
@@ -44,20 +32,16 @@ services:
     command: ["/bin/bash", "-c", "/usr/local/bin/init-script.sh && /sbin/init"]
 
   container2:
+  # build:
+  #     context: ./libbpf
+  #     dockerfile: Dockerfile
     image: lucamjdimarco/ebpf-classifier:latest
     container_name: container2
     networks:
-      control_network:
+      #- external_network
+      external_network:
         ipv4_address: 10.89.0.20
         ipv6_address: fd00:dead:beef::20
-      
-      data_network:
-        ipv4_address: 10.90.0.20
-        ipv6_address: fd01:dead:beef::20
-
-      # external_network:
-      #   ipv4_address: 10.89.0.20
-      #   ipv6_address: fd00:dead:beef::20
     privileged: true
     ulimits:
       memlock:
@@ -81,11 +65,7 @@ services:
       - ./chronograf-data:/var/lib/chronograf
     networks:
       #- external_network
-      # external_network:
-      #   ipv4_address: 10.89.0.40
-      #   ipv6_address: fd00:dead:beef::40
-
-      control_network:
+      external_network:
         ipv4_address: 10.89.0.40
         ipv6_address: fd00:dead:beef::40
   
@@ -95,44 +75,19 @@ services:
     ports:
       - "6379:6379"
     networks:
-      # external_network:
-      #   ipv4_address: 10.89.0.50
-      #   ipv6_address: fd00:dead:beef::50
-
-      control_network:
+      external_network:
         ipv4_address: 10.89.0.50
         ipv6_address: fd00:dead:beef::50
     command: ["redis-server"]
 
 networks:
-  # external_network:
-  #   external:
-  #     name: my_ipv6_network
-  #     #name: podman2
-  #   ipam:
-  #     config:
-  #       - subnet: 10.89.0.0/24
-  #         gateway: 10.89.0.1
-  #       - subnet: fd00:dead:beef::/48
-  #         gateway: fd00:dead:beef::1
-
-  control_network:
+  external_network:
     external:
-      name: control_network
+      name: my_ipv6_network
+      #name: podman2
     ipam:
       config:
         - subnet: 10.89.0.0/24
           gateway: 10.89.0.1
         - subnet: fd00:dead:beef::/48
           gateway: fd00:dead:beef::1
-  
-  data_network:
-    external:
-      name: data_network
-    ipam:
-      config:
-        - subnet: 10.10.0.0/24
-          gateway: 10.90.0.1
-        - subnet: fd01:dead:beef::/48
-          gateway: fd01:dead:beef::1
-  
