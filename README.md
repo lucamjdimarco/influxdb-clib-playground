@@ -146,7 +146,10 @@ ip route del default dev eth0
   - ``` echo $PYTHONPATH ```
 
 ## Architectural System Schema 
-![Alt text](schema.png)
+![Alt text](schemaeBPF.png)
 
 ## Architectural Interaction Schema 
 ![Alt text](ContainerDiagram.png)
+
+## Network Schema 
+![Alt text](NetworkSchema.png)
