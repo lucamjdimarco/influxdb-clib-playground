@@ -14,7 +14,8 @@ services:
       data_network:
         ipv4_address: 10.90.0.30
         ipv6_address: fd01:dead:beef::30
-    privileged: true
+    cap_add:
+      - NET_ADMIN
     volumes:
       - ./init_network.sh:/usr/local/bin/init_network.sh
     entrypoint: ["/bin/bash", "/usr/local/bin/init_network.sh", "influxd"]
@@ -75,7 +76,6 @@ services:
     volumes:
       - ./chronograf-data:/var/lib/chronograf
       - ./init_network.sh:/usr/local/bin/init_network.sh
-    privileged: true
     networks:
       control_network:
         ipv4_address: 10.89.0.40
@@ -83,6 +83,8 @@ services:
       data_network:
         ipv4_address: 10.90.0.40
         ipv6_address: fd01:dead:beef::40
+    cap_add:
+      - NET_ADMIN
     entrypoint: ["/bin/bash", "/usr/local/bin/init_network.sh", "chronograf"]
   
   redis:
@@ -90,15 +92,12 @@ services:
     container_name: redis
     ports:
       - "6379:6379"
-    privileged: true
     networks:
       control_network:
         ipv4_address: 10.89.0.50
         ipv6_address: fd00:dead:beef::50
-
-      data_network:
-        ipv4_address: 10.90.0.50
-        ipv6_address: fd01:dead:beef::50
+    cap_add:
+      - NET_ADMIN
     volumes:
       - ./init_network.sh:/usr/local/bin/init_network.sh
     entrypoint: ["/bin/bash", "/usr/local/bin/init_network.sh", "redis-server"]
