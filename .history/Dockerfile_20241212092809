@@ -89,9 +89,6 @@ RUN cd /opt/git && \
 	git submodule update --init --recursive && \
 	git checkout testDistributed
 
-# Compile and install bpftool
-RUN cd /opt/git/libbpf-bootstrap-tc/bpftool/src && make install
-
 # Cleanup package cache to reduce image size
 RUN apt-get clean
 

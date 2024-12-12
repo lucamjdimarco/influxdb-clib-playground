@@ -23,20 +23,21 @@ RUN apt-get install -y \
 	cmake \
 	libssl-dev \
 	libcurl4-openssl-dev \
-	influxdb \
-	influxdb-client \
 	systemd \
 	init \
 	iproute2 \
 	net-tools \
 	iputils-ping \
 	gnupg \
-	curl \
 	gdb \
-	linux-headers-generic
-	#build-essential \
-    #libbpfcc-dev \
-    #linux-headers-$(uname -r)
+	python3-venv \
+	python3-bpfcc \
+	linux-headers-generic \
+	python3-pip
+
+# Setup Python virtual environment and install dependencies
+RUN python3 -m venv /myenv && \
+    /myenv/bin/pip install requests redis
 
 # install latest llvm for ebpf
 RUN mkdir -p /opt/llvm && cd /opt/llvm && \
@@ -54,6 +55,8 @@ RUN mkdir -p /opt/git
 # compile cpr
 RUN cd /opt/git && \
 	git clone https://github.com/libcpr/cpr.git && \
+	cd cpr && \
+	git checkout 3aa81a6 && \
 	mkdir -p /opt/git/cpr/build
 RUN cd /opt/git/cpr/build && \
 	cmake .. -DCPR_USE_SYSTEM_CURL=ON
@@ -83,7 +86,6 @@ RUN cd /opt/git && \
 RUN cd /opt/git && \
 	git clone --recurse-submodules https://github.com/lucamjdimarco/libbpf-bootstrap-tc.git && \
 	cd libbpf-bootstrap-tc && \
-	git checkout influxDB-test && \
 	git submodule update --init --recursive
 
 # Cleanup package cache to reduce image size
