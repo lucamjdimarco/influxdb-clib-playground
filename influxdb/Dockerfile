@@ -22,3 +22,4 @@ EXPOSE 8086
 
 # Start InfluxDB service
 ENTRYPOINT ["influxd"]
+

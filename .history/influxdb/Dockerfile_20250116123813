@@ -21,4 +21,5 @@ RUN apt-get clean
 EXPOSE 8086
 
 # Start InfluxDB service
-ENTRYPOINT ["/sbin/init"]
+ENTRYPOINT ["influxd"]
+
