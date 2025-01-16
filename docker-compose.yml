@@ -119,7 +119,7 @@ networks:
       name: data_network
     ipam:
       config:
-        - subnet: 10.10.0.0/24
+        - subnet: 10.90.0.0/24
           gateway: 10.90.0.1
         - subnet: fd01:dead:beef::/48
           gateway: fd01:dead:beef::1

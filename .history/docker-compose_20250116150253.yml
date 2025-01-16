@@ -10,11 +10,14 @@ services:
       control_network:
         ipv4_address: 10.89.0.30
         ipv6_address: fd00:dead:beef::30
-    cap_add:
-      - NET_ADMIN
+      
+      data_network:
+        ipv4_address: 10.90.0.30
+        ipv6_address: fd01:dead:beef::30
+    privileged: true
     volumes:
       - ./init_network.sh:/usr/local/bin/init_network.sh
-    entrypoint: ["/bin/bash", "/usr/local/bin/init_network.sh"]
+    entrypoint: ["/bin/bash", "/usr/local/bin/init_network.sh", "influxd"]
     
 
   container1:
@@ -36,7 +39,8 @@ services:
     volumes:
       - ./start.sh:/usr/local/bin/init-script.sh
       - ./python-env.sh:/usr/local/bin/python-env.sh
-    command: ["/bin/bash", "-c", "/usr/local/bin/init-script.sh && /sbin/init"]
+      - ./init_network.sh:/usr/local/bin/init_network.sh
+    command: ["/bin/bash", "/usr/local/bin/init-script.sh", "/usr/local/bin/init-script.sh", /sbin/init"]
 
   container2:
     image: lucamjdimarco/ebpf-classifier:latest
@@ -56,7 +60,8 @@ services:
         hard: -1
     volumes:
       - ./start.sh:/usr/local/bin/init-script.sh
-    command: ["/bin/bash", "-c", "/usr/local/bin/init-script.sh && /sbin/init"]
+      - ./init_network.sh:/usr/local/bin/init_network.sh
+    command: ["/bin/bash", "/usr/local/bin/init-script.sh", "/usr/local/bin/init-script.sh", /sbin/init"]
     
   chronograf:
     image: chronograf:latest
@@ -69,21 +74,34 @@ services:
       - INFLUXDB_URL=http://influxdb:8086
     volumes:
       - ./chronograf-data:/var/lib/chronograf
+      - ./init_network.sh:/usr/local/bin/init_network.sh
+    privileged: true
     networks:
       control_network:
         ipv4_address: 10.89.0.40
         ipv6_address: fd00:dead:beef::40
+      data_network:
+        ipv4_address: 10.90.0.40
+        ipv6_address: fd01:dead:beef::40
+    entrypoint: ["/bin/bash", "/usr/local/bin/init_network.sh", "chronograf"]
   
   redis:
     image: redis:latest
     container_name: redis
     ports:
       - "6379:6379"
+    privileged: true
     networks:
       control_network:
         ipv4_address: 10.89.0.50
         ipv6_address: fd00:dead:beef::50
-    command: ["redis-server"]
+
+      data_network:
+        ipv4_address: 10.90.0.50
+        ipv6_address: fd01:dead:beef::50
+    volumes:
+      - ./init_network.sh:/usr/local/bin/init_network.sh
+    entrypoint: ["/bin/bash", "/usr/local/bin/init_network.sh", "redis-server"]
 
 networks:
   control_network:
@@ -101,7 +119,7 @@ networks:
       name: data_network
     ipam:
       config:
-        - subnet: 10.10.0.0/24
+        - subnet: 10.90.0.0/24
           gateway: 10.90.0.1
         - subnet: fd01:dead:beef::/48
           gateway: fd01:dead:beef::1
