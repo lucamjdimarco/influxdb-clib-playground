@@ -12,7 +12,5 @@ apt install -y iperf3
 
 cd /opt/git/libbpf-bootstrap-tc/src/c || exit
 git pull
-git checkout testDistributed
+git checkout provaBatch2
 make clean
-
-

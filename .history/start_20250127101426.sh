@@ -14,5 +14,3 @@ cd /opt/git/libbpf-bootstrap-tc/src/c || exit
 git pull
 git checkout testDistributed
 make clean
-
-
