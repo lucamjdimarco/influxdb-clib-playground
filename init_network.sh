@@ -4,6 +4,17 @@ apt-get update && apt-get install -y --no-install-recommends \
     iproute2 net-tools iputils-ping && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
+# Riorganizzazione delle interfacce di rete
+ip link set eth0 down
+ip link set eth1 down
+
+ip link set eth0 name temp0
+ip link set eth1 name eth0
+ip link set temp0 name eth1
+
+ip link set eth0 up
+ip link set eth1 up
+
 ETH0="eth0" # Rete di controllo
 ETH1="eth1" # Rete dati
 
